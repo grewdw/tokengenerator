@@ -22,6 +22,12 @@ public class TokenController {
   @Value("${tabwriter.apple.music.private.key}")
   private String privateKey;
 
+  @Value("${tabwriter.apple.music.key.identifier}")
+  private String keyIdentifier;
+
+  @Value("${tabwriter.apple.music.team.id}")
+  private String teamId;
+
   @GetMapping("token")
   public String getDeveloperToken() throws NoSuchAlgorithmException, InvalidKeySpecException {
     Instant now = Instant.now();
@@ -31,8 +37,8 @@ public class TokenController {
     PrivateKey privateKey = kf.generatePrivate(new PKCS8EncodedKeySpec(bytes));
 
     return Jwts.builder()
-      .setHeaderParam("kid", "Z5G4U2Q6S6")
-      .setIssuer("E3XM73DHEY")
+      .setHeaderParam("kid", keyIdentifier)
+      .setIssuer(teamId)
       .setIssuedAt(Date.from(now))
       .setExpiration(Date.from(now.atOffset(UTC).plusMonths(3).toInstant()))
       .signWith(privateKey, SignatureAlgorithm.ES256)
