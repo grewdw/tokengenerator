@@ -28,7 +28,10 @@ public class TokenController {
   @Value("${tabwriter.apple.music.team.id}")
   private String teamId;
 
-  @GetMapping("token")
+  @Value("${tabwriter.apple.music.token.expiry}")
+  private int tokenExpiry;
+
+  @GetMapping("api/token")
   public String getDeveloperToken() throws NoSuchAlgorithmException, InvalidKeySpecException {
     Instant now = Instant.now();
 
@@ -40,7 +43,7 @@ public class TokenController {
       .setHeaderParam("kid", keyIdentifier)
       .setIssuer(teamId)
       .setIssuedAt(Date.from(now))
-      .setExpiration(Date.from(now.atOffset(UTC).plusMonths(3).toInstant()))
+      .setExpiration(Date.from(now.atOffset(UTC).plusDays(tokenExpiry).toInstant()))
       .signWith(privateKey, SignatureAlgorithm.ES256)
       .compact();
   }

@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     httpSecurity.
       csrf().disable().
       sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-      and().addFilter(filter).authorizeRequests().anyRequest().authenticated();
+      and().addFilter(filter).authorizeRequests().antMatchers("/api/**").authenticated();
   }
 
   private static class APIKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
