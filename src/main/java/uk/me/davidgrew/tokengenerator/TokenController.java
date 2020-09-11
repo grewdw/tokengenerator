@@ -12,6 +12,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +33,12 @@ public class TokenController {
   @Value("${tabwriter.apple.music.token.expiry}")
   private int tokenExpiry;
 
+  @Autowired
+  private Clock clock;
+
   @GetMapping("api/token")
   public String getDeveloperToken() throws NoSuchAlgorithmException, InvalidKeySpecException {
-    Instant now = Instant.now();
+    Instant now = clock.now();
 
     KeyFactory kf = KeyFactory.getInstance("EC");
     byte[] bytes = Base64.getDecoder().decode(privateKey);
