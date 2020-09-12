@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'com.palantir.docker' version '0.25.0'
 }
 
 group = 'uk.me.davidgrew'
@@ -34,4 +35,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+docker {
+    name 'dgrew/tokengenerator:latest'
+    files "build/libs/${bootJar.archiveFileName.get()}"
+    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
 }
