@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 *.p8
 **/application.properties
+*.DS_Store
 
 ### STS ###
 .apt_generated
