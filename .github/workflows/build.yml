@@ -33,6 +33,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Login to Docker
-        run: docker login --username dgrew --password 93f72879-c67b-48ee-971b-afdb68caf7e5
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Package and push Docker Image
         run: ./gradlew build dockerPush
