@@ -5,7 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 *.p8
-**/application.properties
+**/application.properties.hidden
 *.DS_Store
 
 ### STS ###
