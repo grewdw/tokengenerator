@@ -1,7 +1,6 @@
 name: Build, Test & Release
 
-env:
-  VERSION: "$GITHUB_SHA"
+
 
 on: [ push ]
 
@@ -9,6 +8,8 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    env:
+      VERSION: "$GITHUB_SHA"
 
     steps:
     - uses: actions/checkout@v2
