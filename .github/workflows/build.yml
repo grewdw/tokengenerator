@@ -1,5 +1,8 @@
 name: Build, Test & Release
 
+env:
+  VERSION: $GITHUB_SHA
+
 on: [ push ]
 
 jobs:
