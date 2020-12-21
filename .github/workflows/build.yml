@@ -1,7 +1,7 @@
 name: Build, Test & Release
 
 env:
-  VERSION: $GITHUB_SHA
+  VERSION: ${{ github.sha }}
 
 on: [ push ]
 
