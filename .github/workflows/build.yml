@@ -9,7 +9,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      VERSION: "$GITHUB_SHA"
+      VERSION: $GITHUB_SHA
 
     steps:
     - uses: actions/checkout@v2
