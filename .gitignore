@@ -8,6 +8,10 @@ build/
 **/application.properties.hidden
 *.DS_Store
 
+### Terraform ###
+*.tfstate*
+**/.terraform*
+
 ### STS ###
 .apt_generated
 .classpath
