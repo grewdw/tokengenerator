@@ -1,18 +1,49 @@
-resource "aws_iam_role" "tabwriter_task_execution_role" {
-  name = "tabwriter-task-execution-role"
-  assume_role_policy = templatefile("templates/assume_role_policy.json.tpl" , {})
+resource "aws_iam_instance_profile" "tabwriter_profile" {
+  name = "${local.name}-profile"
+  role = aws_iam_role.tabwriter_role.name
+}
+
+resource "aws_iam_role" "tabwriter_role" {
+  name = "${local.name}-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+
   tags = {
-    application = "TabWriter"
+    Application = local.application
   }
 }
 
-resource "aws_iam_policy" "tabwriter_task_execution_policy" {
-  name        = "tabwriter_task_execution_policy"
-  description = "Policy for TabWriter task execution"
-  policy = templatefile("templates/role_policy.json.tpl", {})
-}
+resource "aws_iam_role_policy" "tabwriter_policy" {
+  name = "${local.name}-policy"
+  role = aws_iam_role.tabwriter_role.id
 
-resource "aws_iam_role_policy_attachment" "tabwriter_task_execution_policy_attachment" {
-  role       = aws_iam_role.tabwriter_task_execution_role.name
-  policy_arn = aws_iam_policy.tabwriter_task_execution_policy.arn
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ssm:GetParameter*",
+        ]
+        Effect = "Allow"
+        Resource = [
+          aws_ssm_parameter.auth_token.arn,
+          aws_ssm_parameter.apple_music_private_key.arn,
+          aws_ssm_parameter.apple_music_key_identifier.arn,
+          aws_ssm_parameter.apple_music_team_id.arn
+        ]
+      },
+    ]
+  })
 }

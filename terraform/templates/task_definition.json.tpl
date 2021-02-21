@@ -3,7 +3,7 @@
         "environment": [
             {
                 "name": "AUTH_TOKEN",
-                "value": "kqPYCNNbwOQQZGl21YIK0iyc56pwPSomqnl8EdChl989pdow"
+			"value": "kqPYCNNbwOQQZGl21YIK0iyc56pwPSomqnl8EdChl989pdow"
             },
             {
                 "name": "APPLE_MUSIC_PRIVATE_KEY",

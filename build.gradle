@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'uk.me.davidgrew'
-version = System.getenv("VERSION") ?: 'local'
+version = System.getenv("VERSION") ?: 'dev'
 sourceCompatibility = '11'
 
 wrapper {
