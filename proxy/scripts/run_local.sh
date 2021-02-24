@@ -1,12 +1,13 @@
 #!/bin/bash
 
-VERSION=${1-dev}
+TAG=${1:-dev}
+HOST=${2:-localhost}
 
 docker run \
 	-d \
 	--rm \
 	--name proxy \
 	-p 80:80 \
-	dgrew/tokenproxy:${VERSION}
+	dgrew/tokenproxy:${TAG}
 
-docker exec proxy /update_config.sh -d localhost
+docker exec proxy /update_config.sh -d ${HOST}
