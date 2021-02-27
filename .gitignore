@@ -7,6 +7,11 @@ build/
 *.p8
 **/application.properties.hidden
 *.DS_Store
+*.bbprojectd
+
+### Terraform ###
+*.tfstate*
+**/.terraform*
 
 ### STS ###
 .apt_generated
