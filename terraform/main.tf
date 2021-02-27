@@ -6,11 +6,15 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket = "dg-development-bucket-general"
-    key    = "terraform/tabwriter.tfstate"
-    region = "eu-west-2"
+  backend "remote" {
+    organization = "davidgrew"
+
+    workspaces {
+      prefix = "tokengenerator-"
+    }
   }
+
+  required_version = ">= 0.13.0"
 }
 
 provider "aws" {
