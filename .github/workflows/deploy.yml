@@ -64,9 +64,9 @@ jobs:
         run: terraform init
       - name: Terraform Workspace
         run: terraform workspace select prod || terraform workspace new prod
-      - name: Create tfvars
-        run: echo "tag = ${{ env.VERSION }}" >> version.auto.tfvars && echo "" >> version.auto.tfvars
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+      - name: Create tfvars
+        run: echo "tag = ${{ env.VERSION }}" >> version.auto.tfvars && echo "" >> version.auto.tfvars
       - name: Terraform Apply
         run: terraform apply -auto-approve
