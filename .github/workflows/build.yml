@@ -30,6 +30,9 @@ jobs:
 
   test_generator_app:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: generator
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -37,9 +40,9 @@ jobs:
       with:
         java-version: 11
     - name: Grant execute permission for gradlew
-      run: chmod +x ./generator/gradlew
+      run: chmod +x ./gradlew
     - name: Run tests
-      run: cd generator && ./gradlew clean test
+      run: ./gradlew clean test
 
   push_generator_image:
     runs-on: ubuntu-latest
