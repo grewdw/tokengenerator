@@ -107,4 +107,4 @@ jobs:
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var 'tag=${{ env.VERSION }}''
+        run: terraform apply -auto-approve -var 'tag=${{ env.VERSION }}'
