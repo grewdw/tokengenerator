@@ -105,6 +105,6 @@ jobs:
       - name: Terraform Workspace
         run: terraform workspace select prod || terraform workspace new prod
       - name: Terraform Destroy
-        run: terraform destroy
+        run: terraform destroy -auto-approve
       - name: Terraform Apply
         run: terraform apply -auto-approve -var 'tag=${{ env.VERSION }}''
