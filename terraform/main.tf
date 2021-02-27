@@ -23,8 +23,7 @@ provider "aws" {
 
 locals {
   application = "TabWriter"
-  environment = terraform.workspace == "prod" ? "prod" : "dev"
-  name        = "tabwriter-tokengenerator-${local.environment}"
+  name        = "tabwriter-tokengenerator-${var.environment}"
 }
 
 data "aws_ami" "amazon_ami" {

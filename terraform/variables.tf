@@ -1,3 +1,8 @@
+variable "environment" {
+  type    = string
+  default = "dev"
+}
+
 variable "tag" {
   type    = string
   default = "dev"
