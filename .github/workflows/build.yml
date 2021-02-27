@@ -80,7 +80,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: dgrew/tokenproxy
-          tags: $VERSION
+          tags: ${{ env.VERSION }}
           
   deploy_terraform:
     runs-on: ubuntu-latest
@@ -107,4 +107,4 @@ jobs:
       - name: Terraform Destroy
         run: terraform destroy
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var 'tag=$VERSION''
+        run: terraform apply -auto-approve -var 'tag=${{ env.VERSION }}''
