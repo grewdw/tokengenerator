@@ -4,9 +4,8 @@ env:
   VERSION: ${{ github.sha }}
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [published]
 
 jobs:
   push_generator_image:
