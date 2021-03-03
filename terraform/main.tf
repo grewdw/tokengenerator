@@ -28,7 +28,7 @@ locals {
 
 data "aws_ami" "amazon_ami" {
   most_recent = true
-  name_regex  = "amzn2-ami-hvm-2.0.20210126.0-x86_64-gp2"
+  name_regex  = "amzn2-ami-hvm-2.0.20210219.0-x86_64-gp2"
   owners      = ["amazon"]
 }
 
@@ -41,9 +41,10 @@ resource "aws_instance" "tabwriter_instance" {
     PK                = aws_ssm_parameter.apple_music_private_key.name
     KI                = aws_ssm_parameter.apple_music_key_identifier.name
     TI                = aws_ssm_parameter.apple_music_team_id.name
-    tag               = var.tag
-    domain            = var.domain,
-    enable_encryption = var.enable_encryption ? "--enable-encryption" : ""
+    TAG               = var.tag
+    DOMAIN            = var.domain,
+    ENABLE_TLS        = var.enable_tls ? "--enable-tls" : ""
+    CLOUDWATCH_CONFIG = "s3://${aws_s3_bucket.tabwriter_s3_bucket.id}/${aws_s3_bucket_object.cloudwatch_config.id}"
   })
   key_name             = var.host
   iam_instance_profile = aws_iam_instance_profile.tabwriter_profile.name
@@ -52,6 +53,17 @@ resource "aws_instance" "tabwriter_instance" {
     Name        = "${local.name}-instance"
     Application = local.application
   }
+}
+
+data "aws_eip" "elastic_ip" {
+  tags = {
+    Domain = var.domain
+  }
+}
+
+resource "aws_eip_association" "eip_association" {
+  instance_id   = aws_instance.tabwriter_instance.id
+  allocation_id = data.aws_eip.elastic_ip.id
 }
 
 output "tabwriter_public_ip" {

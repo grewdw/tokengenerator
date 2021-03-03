@@ -33,13 +33,3 @@ resource "aws_security_group" "tabwriter_security_group" {
 data "http" "myip" {
   url = "http://ipv4.icanhazip.com"
 }
-
-resource "aws_security_group_rule" "example" {
-  count             = var.host == "" ? 0 : 1
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["${chomp(data.http.myip.body)}/32"]
-  security_group_id = aws_security_group.tabwriter_security_group.id
-}

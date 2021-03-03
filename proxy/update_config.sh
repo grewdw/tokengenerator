@@ -5,8 +5,8 @@ do
 key="$1"
 
 case $key in
-    --enable-encryption)
-    ENABLE_ENCRYPTION="true"
+    --enable-tls)
+    ENABLE_TLS="true"
     shift # past argument
     ;;
     -d|--domain)
@@ -23,7 +23,7 @@ fi
 
 sed -i "s/DOMAIN/${DOMAIN}/" /etc/nginx/conf.d/proxy_config.conf
 
-if [[ ${ENABLE_ENCRYPTION} == "true" ]]; then
+if [[ ${ENABLE_TLS} == "true" ]]; then
 	certbot --nginx \
 		--email davidgrew@hotmail.co.uk \
 		--agree-tos \
