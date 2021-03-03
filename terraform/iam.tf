@@ -44,6 +44,26 @@ resource "aws_iam_role_policy" "tabwriter_policy" {
           aws_ssm_parameter.apple_music_team_id.arn
         ]
       },
+      {
+        Action = [
+          "s3:GetObject",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "${aws_s3_bucket.tabwriter_s3_bucket.arn}/${aws_s3_bucket_object.cloudwatch_config.id}"
+        ]
+      }
     ]
   })
+}
+
+resource "aws_iam_role_policy" "tabwriter_cloudwatch_policy" {
+  name = "${local.name}-cloudwatch-policy"
+  role = aws_iam_role.tabwriter_role.id
+
+  policy = data.aws_iam_policy.cloudwatch_policy.policy
+}
+
+data "aws_iam_policy" "cloudwatch_policy" {
+  arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }

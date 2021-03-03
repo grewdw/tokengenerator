@@ -15,10 +15,10 @@ variable "host" {
 
 variable "domain" {
   type    = string
-  default = "tabwriter.uk"
+  default = "tabwriter.me.uk"
 }
 
-variable "enable_encryption" {
+variable "enable_tls" {
   type    = bool
   default = false
 }

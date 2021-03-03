@@ -7,6 +7,7 @@ amazon-linux-extras install docker
 yum install docker
 service docker start
 yum install -y jq
+yum install -y amazon-cloudwatch-agent
 
 export AWS_DEFAULT_REGION=eu-west-2
 
@@ -29,13 +30,19 @@ docker run \
 	-e APPLE_MUSIC_PRIVATE_KEY="$PK" \
 	-e APPLE_MUSIC_KEY_IDENTIFIER="$KI" \
 	-e APPLE_MUSIC_TEAM_ID="$TI" \
-	dgrew/tokengenerator:${tag}
+	dgrew/tokengenerator:${TAG}
+
+mkdir /var/log/nginx
 
 docker run \
 	-d \
 	-p 80:80 -p 443:443 \
 	--name proxy \
 	--network=token_network \
-	dgrew/tokenproxy:${tag}
+	-v /var/log/nginx:/var/log/nginx \
+	dgrew/tokenproxy:${TAG}
 
-docker exec proxy /update_config.sh -d ${domain} ${enable_encryption}
+docker exec proxy /update_config.sh -d ${DOMAIN} ${ENABLE_TLS}
+
+aws s3 cp ${CLOUDWATCH_CONFIG} /tmp/cloudwatch_config.json
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/tmp/cloudwatch_config.json
